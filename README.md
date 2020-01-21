@@ -1,1 +1,1 @@
-# memoryGame
+# Simple memory card game
