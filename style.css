@@ -140,7 +140,6 @@ body {
 .card-value {
     transition: transform 100ms ease-in-out;
     transform: scale(0.6);
-    object-fit: scale-down;
 }
 
 .card-face:hover .card-value {
