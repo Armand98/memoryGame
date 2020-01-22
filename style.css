@@ -101,14 +101,69 @@ body {
     animation: overlay-grow 500ms forwards;
 }
 
-@keyframes overlay-grow {
-    from {
-        background-color: rgba(0, 0, 0, 0);
-        font-size: 0;
+
+@media(min-width: 1367px) {
+    @keyframes overlay-grow {
+        from {
+            background-color: rgba(0, 0, 0, 0);
+            font-size: 0;
+        }
+        to {
+            background-color: rgba(0, 0, 0, .6);
+            font-size: 10em;
+        }
     }
-    to {
-        background-color: rgba(0, 0, 0, .6);
-        font-size: 10em;
+}
+
+@media(max-width: 1366px) {
+    @keyframes overlay-grow {
+        from {
+            background-color: rgba(0, 0, 0, 0);
+            font-size: 0;
+        }
+        to {
+            background-color: rgba(0, 0, 0, .6);
+            font-size: 6em;
+        }
+    }
+}
+
+@media(max-width: 900px) {
+    @keyframes overlay-grow {
+        from {
+            background-color: rgba(0, 0, 0, 0);
+            font-size: 0;
+        }
+        to {
+            background-color: rgba(0, 0, 0, .6);
+            font-size: 4em;
+        }
+    }
+}
+
+@media(max-width: 750px) {
+    @keyframes overlay-grow {
+        from {
+            background-color: rgba(0, 0, 0, 0);
+            font-size: 0;
+        }
+        to {
+            background-color: rgba(0, 0, 0, .6);
+            font-size: 3em;
+        }
+    }
+}
+
+@media(max-width: 360px) {
+    @keyframes overlay-grow {
+        from {
+            background-color: rgba(0, 0, 0, 0);
+            font-size: 0;
+        }
+        to {
+            background-color: rgba(0, 0, 0, .6);
+            font-size: 2em;
+        }
     }
 }
 
@@ -140,10 +195,6 @@ body {
 .card-value {
     transition: transform 100ms ease-in-out;
     transform: scale(0.6);
-}
-
-.card-face:hover .card-value {
-    
 }
 
 .fsociety {
