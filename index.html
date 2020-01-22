@@ -6,12 +6,33 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="style.css">
     <title>Memory cards</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
     <script src="script.js" async></script>
 </head>
 <body>
     <h1 class="page-title">Memory cards</h1>
-    <div class="overlay-text visible">
-        Click to Start
+    <div class="menu-container">
+        <div class="menu-item">
+            Grid size: 
+            <select id="grid-size">
+                <option value="2">1x4</option>
+                <option value="4">2x4</option>
+                <option value="6">3x4</option>
+                <option value="8">4x4</option>
+            </select>
+        </div>
+        <div class="menu-item">
+            Level:
+            <select id="game-level">
+                <option value="easy" selected>Easy</option>
+                <option value="normal">Normal</option>
+                <option value="hard">Hard</option>
+            </select>
+        </div>
+        <div class="menu-item">
+            <button id="start-btn" class="game-start-btn">START</button>
+        </div>
     </div>
     <div id="game-over-text" class="overlay-text">
         GAME OVER
@@ -21,143 +42,13 @@
         VICTORY
         <span class="overlay-text-small">Click to Restart</span>
     </div>
-    <div class="game-container">
+    <div id="card-grid" class="game-container">
         <div class="game-info-container">
             <div class="game-info">
                 Time: <span id="time-remaining">100</span>
             </div>
             <div class="game-info">
                 Flips: <span id="flips">0</span>
-            </div>
-        </div>
-        
-        <div class="card">
-            <div class="card-back card-face">
-                <img class="fsociety" src="Assets/Images/card_back_small.png">
-            </div>
-            <div class="card-front card-face">
-                <img class="card-value" src="Assets/Images/elliot.jpg">
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-back card-face">
-                <img class="fsociety" src="Assets/Images/card_back_small.png">
-            </div>
-            <div class="card-front card-face">
-                <img class="card-value" src="Assets/Images/angela.jpg">
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-back card-face">
-                <img class="fsociety" src="Assets/Images/card_back_small.png">
-            </div>
-            <div class="card-front card-face">
-                <img class="card-value" src="Assets/Images/darlene.jpg">
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-back card-face">
-                <img class="fsociety" src="Assets/Images/card_back_small.png">
-            </div>
-            <div class="card-front card-face">
-                <img class="card-value" src="Assets/Images/joanna.jpg">
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-back card-face">
-                <img class="fsociety" src="Assets/Images/card_back_small.png">
-            </div>
-            <div class="card-front card-face">
-                <img class="card-value" src="Assets/Images/dominique.jpg">
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-back card-face">
-                <img class="fsociety" src="Assets/Images/card_back_small.png">
-            </div>
-            <div class="card-front card-face">
-                <img class="card-value" src="Assets/Images/mrRobot.jpg">
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-back card-face">
-                <img class="fsociety" src="Assets/Images/card_back_small.png">
-            </div>
-            <div class="card-front card-face">
-                <img class="card-value" src="Assets/Images/price.jpg">
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-back card-face">
-                <img class="fsociety" src="Assets/Images/card_back_small.png">
-            </div>
-            <div class="card-front card-face">
-                <img class="card-value" src="Assets/Images/tyrell.jpg">
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-back card-face">
-                <img class="fsociety" src="Assets/Images/card_back_small.png">
-            </div>
-            <div class="card-front card-face">
-                <img class="card-value" src="Assets/Images/elliot.jpg">
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-back card-face">
-                <img class="fsociety" src="Assets/Images/card_back_small.png">
-            </div>
-            <div class="card-front card-face">
-                <img class="card-value" src="Assets/Images/angela.jpg">
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-back card-face">
-                <img class="fsociety" src="Assets/Images/card_back_small.png">
-            </div>
-            <div class="card-front card-face">
-                <img class="card-value" src="Assets/Images/darlene.jpg">
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-back card-face">
-                <img class="fsociety" src="Assets/Images/card_back_small.png">
-            </div>
-            <div class="card-front card-face">
-                <img class="card-value" src="Assets/Images/joanna.jpg">
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-back card-face">
-                <img class="fsociety" src="Assets/Images/card_back_small.png">
-            </div>
-            <div class="card-front card-face">
-                <img class="card-value" src="Assets/Images/dominique.jpg">
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-back card-face">
-                <img class="fsociety" src="Assets/Images/card_back_small.png">
-            </div>
-            <div class="card-front card-face">
-                <img class="card-value" src="Assets/Images/mrRobot.jpg">
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-back card-face">
-                <img class="fsociety" src="Assets/Images/card_back_small.png">
-            </div>
-            <div class="card-front card-face">
-                <img class="card-value" src="Assets/Images/price.jpg">
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-back card-face">
-                <img class="fsociety" src="Assets/Images/card_back_small.png">
-            </div>
-            <div class="card-front card-face">
-                <img class="card-value" src="Assets/Images/tyrell.jpg">
             </div>
         </div>
     </div>

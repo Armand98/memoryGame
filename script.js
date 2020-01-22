@@ -135,6 +135,10 @@ class MixOrMatch {
         clearInterval(this.countDown);
         this.audioController.gameOver();
         document.getElementById('game-over-text').classList.add('visible');
+        setTimeout(() => {
+            this.hideCards();
+        }, 1500);
+        document.getElementById('start-btn').disabled = false;
     }
 
     victory() {
@@ -144,9 +148,10 @@ class MixOrMatch {
         setTimeout(() => {
             this.hideCards();
         }, 3000);
+        document.getElementById('start-btn').disabled = false;
     }
 
-    shuffleCards() { // algorytm tasowania Fishera–Yatesa dla orderu grida CSS'a
+    shuffleCards() { // algorytm tasowania Fishera–Yatesa dla kolejności grida CSS'a
         for(let i = this.cardsArray.length - 1; i > 0; i--) {
             let randomIndex = Math.floor(Math.random() * (i+1));
             this.cardsArray[randomIndex].style.order = i;
@@ -159,21 +164,105 @@ class MixOrMatch {
     }
 }
 
+function appendCard(backSource, frontSource, number) {
+    const cardElement = document.createElement('div');
+    cardElement.id = 'card-element'+number;
+    cardElement.className = 'card';
+    document.getElementById('card-grid').appendChild(cardElement);
+
+    const cardBackElement = document.createElement('div');
+    cardBackElement.id = 'card-back'+number;
+    cardBackElement.className = 'card-back card-face';
+    document.getElementById('card-element'+number).appendChild(cardBackElement);
+
+    const cardFrontElement = document.createElement('div');
+    cardFrontElement.id = 'card-front'+number;
+    cardFrontElement.className = 'card-front card-face';
+    document.getElementById('card-element'+number).appendChild(cardFrontElement);
+
+    const cardBack = document.createElement('img');
+    cardBack.className = 'fsociety';
+    cardBack.src = backSource;
+    document.getElementById('card-back'+number).appendChild(cardBack);
+
+    const cardFront = document.createElement('img');
+    cardFront.className = 'card-value';
+    cardFront.src = frontSource;
+    document.getElementById('card-front'+number).appendChild(cardFront);
+
+}
+
+function removeCards() {
+    let element = null;
+    for(let i=0; i<8; i++)
+    {
+        let num1 = i.toString();
+        for(let j=0; j<2; j++)
+        {
+            let num2 = j.toString();
+            element = document.getElementById('card-element'+num1+num2);
+            if(element != null)
+                element.remove();
+        } 
+    }
+}
+
 function ready() {
     let overlays = Array.from(document.getElementsByClassName('overlay-text'));
     let cards = Array.from(document.getElementsByClassName('card'));
-    let game = new MixOrMatch(100, cards);
+    let startBtn = document.getElementById('start-btn');
+    let game;
+
+    let imagesSrc = ["Assets/Images/angela.jpg", "Assets/Images/darlene.jpg", 
+                "Assets/Images/dominique.jpg", "Assets/Images/elliot.jpg", 
+                "Assets/Images/joanna.jpg", "Assets/Images/mrRobot.jpg", 
+                "Assets/Images/price.jpg", "Assets/Images/tyrell.jpg"];
+
+    let reverseSrc = "Assets/Images/card_back_small.png";
+    
+    startBtn.addEventListener('click', () => {
+        startBtn.disabled = true;
+        removeCards();
+
+        let e = document.getElementById("game-level");
+        let gameLevel = e.options[e.selectedIndex].value;
+
+        let f = document.getElementById("grid-size");
+	    let gridSize = f.options[f.selectedIndex].value;
+
+        let time = 90;
+
+        if(gameLevel == 'easy')
+            time = 90;
+        else if(gameLevel == 'normal')
+            time = 60;
+        else if (gameLevel == 'hard')
+            time = 30;
+
+        for(let i=0; i<gridSize; i++)
+        {
+            let num1 = i.toString();
+            for(let j=0; j<2; j++)
+            {
+                let num2 = j.toString();
+                appendCard(reverseSrc, imagesSrc[i], num1+num2);
+            } 
+        }
+        cards = Array.from(document.getElementsByClassName('card'));
+        
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                game.flipCard(card);
+            });
+        });
+
+        game = new MixOrMatch(time, cards);
+        game.startGame();
+    });
 
     overlays.forEach(overlay => {
         overlay.addEventListener('click', () => {
             overlay.classList.remove('visible');
-            game.startGame();
-        });
-    });
-
-    cards.forEach(card => {
-        card.addEventListener('click', () => {
-            game.flipCard(card);
         });
     });
 }
