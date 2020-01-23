@@ -56,7 +56,6 @@ class MixOrMatch {
         let userTime = this.totalTime - this.timeRemaining;
         let userFlips = document.getElementById("flips").innerText;
         let gridSizeBonus = 1;
-        //let highScores = [];
 
         if(gridSize == 2)
             gridSizeBonus = 1;
@@ -68,9 +67,6 @@ class MixOrMatch {
             gridSizeBonus = 500;
 
         let userScore = Math.floor((gridSizeBonus+this.timeRemaining-userTime)/(userFlips));
-
-		//highScores.push({ name: userNick, score: userScore });
-        //localStorage.setItem("highscores", JSON.stringify(highScores));
         
         const toSend = {
                 name: userNick,
@@ -247,11 +243,9 @@ function removeCards() {
 }
 
 function getRank() {
-    let hst = document.getElementById("highscores");
-    hst.innerHTML = "";
+    let table = document.getElementById("highscores");
     let xhr = new XMLHttpRequest();
     let url = "scores.json";
-    let highScores = [];
 
     xhr.open("GET", url, true);
     xhr.send();
@@ -260,14 +254,18 @@ function getRank() {
         if(this.readyState == 4 && this.status == 200) {
             let retrievedScores = JSON.parse(this.responseText);
             if(retrievedScores != null){
+                table.innerHTML += "<thead><tr><th>Nazwa gracza</th><th>Punkty</th></tr></thead>";
+                table.innerHTML += '<tbody id="table-body">';
+                let tbody = document.getElementById("table-body");
                 //retrievedScores.sort((a, b) => (a.score < b.score) ? 1 : -1);
-                hst.innerHTML += "<thead><tr><th>Nazwa gracza</th><th>Punkty</th></tr></thead>";
-                hst.innerHTML += "<tbody>";
                 for (let i = 0; i < retrievedScores.length; i++) {
-                    highScores.push({name: retrievedScores[i].name, score: retrievedScores[i].score});
-                    hst.innerHTML += "<tr><td>" + retrievedScores[i].name + "</td><td>" + retrievedScores[i].score + "</td></tr>";
+                    var row = tbody.insertRow(0);
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    cell1.innerHTML = retrievedScores[i].name;
+                    cell2.innerHTML = retrievedScores[i].score;
                 }
-                hst.innerHTML += "</tbody>";
+                table.innerHTML += "</tbody>";
             }
         }
     }
