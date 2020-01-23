@@ -248,7 +248,7 @@ function removeCards() {
 
 function getRank() {
     let hst = document.getElementById("highscores");
-    hst.innerHTML += "<thead><tr><th>Nazwa gracza</th><th>Punkty</th></tr></thead>";
+    hst.innerHTML = "";
     let xhr = new XMLHttpRequest();
     let url = "scores.json";
     let highScores = [];
@@ -261,6 +261,7 @@ function getRank() {
             let retrievedScores = JSON.parse(this.responseText);
             if(retrievedScores != null){
                 //retrievedScores.sort((a, b) => (a.score < b.score) ? 1 : -1);
+                hst.innerHTML += "<thead><tr><th>Nazwa gracza</th><th>Punkty</th></tr></thead>";
                 hst.innerHTML += "<tbody>";
                 for (let i = 0; i < retrievedScores.length; i++) {
                     highScores.push({name: retrievedScores[i].name, score: retrievedScores[i].score});
