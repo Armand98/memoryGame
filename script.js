@@ -1,7 +1,7 @@
 class AudioController {
     constructor() {
 
-        this.bgMusic = new Audio('Assets/Audio/creepy.mp3');
+        this.bgMusic = new Audio('');
         this.flipSound = new Audio('Assets/Audio/flip.wav');
         this.matchSound = new Audio('Assets/Audio/match.wav');
         this.victorySound = new Audio('Assets/Audio/victory.wav');
@@ -47,6 +47,42 @@ class MixOrMatch {
         this.timer = document.getElementById('time-remaining');
         this.ticker = document.getElementById('flips');
         this.audioController = new AudioController();
+    }
+
+    saveScore() {
+        let userNick = document.getElementById("nick").value;
+        let e = document.getElementById("grid-size");
+        let gridSize = e.options[e.selectedIndex].value;
+        let userTime = this.totalTime - this.timeRemaining;
+        let userFlips = document.getElementById("flips").innerText;
+        let gridSizeBonus = 1;
+        //let highScores = [];
+
+        if(gridSize == 2)
+            gridSizeBonus = 1;
+        else if(gridSize == 4)
+            gridSizeBonus = 10;
+        else if (gridSize == 6)
+            gridSizeBonus = 100;
+        else if (gridSize == 8)
+            gridSizeBonus = 500;
+
+        let userScore = Math.floor((gridSizeBonus+this.timeRemaining-userTime)/(userFlips));
+
+		//highScores.push({ name: userNick, score: userScore });
+        //localStorage.setItem("highscores", JSON.stringify(highScores));
+        
+        const toSend = {
+                name: userNick,
+                score: userScore
+            };
+
+        const jsonString = JSON.stringify(toSend);
+        const xhr = new XMLHttpRequest();
+
+        xhr.open("POST", "receive.php");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(jsonString);
     }
 
     startGame() {
@@ -151,6 +187,7 @@ class MixOrMatch {
         }, 3000);
         document.getElementById('start-btn').disabled = false;
         document.getElementById('start-btn').style.backgroundColor = '#ed3330';
+        this.saveScore();
     }
 
     shuffleCards() { // algorytm tasowania Fishera–Yatesa dla kolejności grida CSS'a
@@ -210,44 +247,33 @@ function removeCards() {
 }
 
 function getRank() {
-    var hst = document.getElementById("highscores");
-    hst.innerHTML = "";
-    highScores = [];
+    let hst = document.getElementById("highscores");
+    hst.innerHTML += "<thead><tr><th>Nazwa gracza</th><th>Punkty</th></tr></thead>";
+    let xhr = new XMLHttpRequest();
+    let url = "scores.json";
+    let highScores = [];
 
-    if (typeof(Storage) !== "undefined") {
-        var retrievedScores = JSON.parse(localStorage.getItem("highscores"));			
-        if(retrievedScores != null){
-            retrievedScores.sort((a, b) => (a.score < b.score) ? 1 : -1);
-            hst.innerHTML += "<thead><tr><th>Nazwa gracza</th><th>Punkty</th></tr></thead>";
-            for (var i = 0; i < retrievedScores.length; i++) {
-                highScores.push({name: retrievedScores[i].name, score: retrievedScores[i].score});
-                hst.innerHTML += "<tr><td>" + retrievedScores[i].name + "</td><td>" + retrievedScores[i].score + "</td></tr>";
+    xhr.open("GET", url, true);
+    xhr.send();
+
+    xhr.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
+            let retrievedScores = JSON.parse(this.responseText);
+            if(retrievedScores != null){
+                //retrievedScores.sort((a, b) => (a.score < b.score) ? 1 : -1);
+                hst.innerHTML += "<tbody>";
+                for (let i = 0; i < retrievedScores.length; i++) {
+                    highScores.push({name: retrievedScores[i].name, score: retrievedScores[i].score});
+                    hst.innerHTML += "<tr><td>" + retrievedScores[i].name + "</td><td>" + retrievedScores[i].score + "</td></tr>";
+                }
+                hst.innerHTML += "</tbody>";
             }
         }
-    } else {
-        hst.innerHTML = "Twoja przeglądarka nie obsługuje zapisu do rankingu";
     }
 }
 
-function saveScore() {
-        let userNick = document.getElementById("nick").value;
-        let e = document.getElementById("game-level");
-        let gameLevel = e.options[e.selectedIndex].value;
-        let f = document.getElementById("grid-size");
-        let gridSize = f.options[f.selectedIndex].value;
-        
-        let remainingTime = document.getElementById("time-remaining").innerText;
-        let userFlips = document.getElementById("flips").innerText;
-
-        var userScore = gridSize/(userTime*userFlips);
-        
-		highScores.push({ name: userNick, score: userScore });
-		localStorage.setItem("highscores", JSON.stringify(highScores));
-		getRank();
-		init();
-    }
-
 function ready() {
+    getRank();
     let overlays = Array.from(document.getElementsByClassName('overlay-text'));
     let cards = Array.from(document.getElementsByClassName('card'));
     let startBtn = document.getElementById('start-btn');
