@@ -139,6 +139,7 @@ class MixOrMatch {
             this.hideCards();
         }, 1500);
         document.getElementById('start-btn').disabled = false;
+        document.getElementById('start-btn').style.backgroundColor = '#ed3330';
     }
 
     victory() {
@@ -149,6 +150,7 @@ class MixOrMatch {
             this.hideCards();
         }, 3000);
         document.getElementById('start-btn').disabled = false;
+        document.getElementById('start-btn').style.backgroundColor = '#ed3330';
     }
 
     shuffleCards() { // algorytm tasowania Fishera–Yatesa dla kolejności grida CSS'a
@@ -207,6 +209,44 @@ function removeCards() {
     }
 }
 
+function getRank() {
+    var hst = document.getElementById("highscores");
+    hst.innerHTML = "";
+    highScores = [];
+
+    if (typeof(Storage) !== "undefined") {
+        var retrievedScores = JSON.parse(localStorage.getItem("highscores"));			
+        if(retrievedScores != null){
+            retrievedScores.sort((a, b) => (a.score < b.score) ? 1 : -1);
+            hst.innerHTML += "<thead><tr><th>Nazwa gracza</th><th>Punkty</th></tr></thead>";
+            for (var i = 0; i < retrievedScores.length; i++) {
+                highScores.push({name: retrievedScores[i].name, score: retrievedScores[i].score});
+                hst.innerHTML += "<tr><td>" + retrievedScores[i].name + "</td><td>" + retrievedScores[i].score + "</td></tr>";
+            }
+        }
+    } else {
+        hst.innerHTML = "Twoja przeglądarka nie obsługuje zapisu do rankingu";
+    }
+}
+
+function saveScore() {
+        let userNick = document.getElementById("nick").value;
+        let e = document.getElementById("game-level");
+        let gameLevel = e.options[e.selectedIndex].value;
+        let f = document.getElementById("grid-size");
+        let gridSize = f.options[f.selectedIndex].value;
+        
+        let remainingTime = document.getElementById("time-remaining").innerText;
+        let userFlips = document.getElementById("flips").innerText;
+
+        var userScore = gridSize/(userTime*userFlips);
+        
+		highScores.push({ name: userNick, score: userScore });
+		localStorage.setItem("highscores", JSON.stringify(highScores));
+		getRank();
+		init();
+    }
+
 function ready() {
     let overlays = Array.from(document.getElementsByClassName('overlay-text'));
     let cards = Array.from(document.getElementsByClassName('card'));
@@ -221,9 +261,6 @@ function ready() {
     let reverseSrc = "Assets/Images/card_back_small.png";
     
     startBtn.addEventListener('click', () => {
-        startBtn.disabled = true;
-        removeCards();
-
         let e = document.getElementById("game-level");
         let gameLevel = e.options[e.selectedIndex].value;
 
@@ -231,6 +268,13 @@ function ready() {
 	    let gridSize = f.options[f.selectedIndex].value;
 
         let time = 90;
+        let flag = true;
+
+        if(gridSize == 'stop')
+        {
+            alert("Choose a grid size!");
+            flag = false;
+        }
 
         if(gameLevel == 'easy')
             time = 90;
@@ -238,26 +282,38 @@ function ready() {
             time = 60;
         else if (gameLevel == 'hard')
             time = 30;
-
-        for(let i=0; i<gridSize; i++)
+        else if(gameLevel == 'stop')
         {
-            let num1 = i.toString();
-            for(let j=0; j<2; j++)
-            {
-                let num2 = j.toString();
-                appendCard(reverseSrc, imagesSrc[i], num1+num2);
-            } 
+            alert("Choose a game level!");
+            flag = false;
         }
-        cards = Array.from(document.getElementsByClassName('card'));
-        
-        cards.forEach(card => {
-            card.addEventListener('click', () => {
-                game.flipCard(card);
-            });
-        });
 
-        game = new MixOrMatch(time, cards);
-        game.startGame();
+        if(flag)
+        {
+            startBtn.disabled = true;
+            startBtn.style.backgroundColor = '#434343';
+            removeCards();
+
+            for(let i=0; i<gridSize; i++)
+            {
+                let num1 = i.toString();
+                for(let j=0; j<2; j++)
+                {
+                    let num2 = j.toString();
+                    appendCard(reverseSrc, imagesSrc[i], num1+num2);
+                } 
+            }
+            cards = Array.from(document.getElementsByClassName('card'));
+            
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    game.flipCard(card);
+                });
+            });
+
+            game = new MixOrMatch(time, cards);
+            game.startGame();
+        }
     });
 
     overlays.forEach(overlay => {

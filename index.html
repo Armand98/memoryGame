@@ -12,20 +12,29 @@
 </head>
 <body>
     <h1 class="page-title">Memory cards</h1>
+    <div class="table-wrapper">
+        <table id="highscores" class="fl-table">
+            
+        </table>
+    </div>
+    <div class="user-form">
+        <label>Nickname:</label>
+        <input id="nick" type="text" name="nickname">
+    </div>
     <div class="menu-container">
-        <div class="menu-item">
-            Grid size: 
-            <select id="grid-size">
+        <div class="menu-item dropdown dropdown-dark">
+            <select id="grid-size" class="dropdown-select">
+                <option value="stop" selected>GRID SIZE</option>
                 <option value="2">1x4</option>
                 <option value="4">2x4</option>
                 <option value="6">3x4</option>
                 <option value="8">4x4</option>
             </select>
         </div>
-        <div class="menu-item">
-            Level:
-            <select id="game-level">
-                <option value="easy" selected>Easy</option>
+        <div class="menu-item dropdown dropdown-dark">
+            <select id="game-level" class="dropdown-select">
+                <option value="stop" selected>LEVEL</option>
+                <option value="easy">Easy</option>
                 <option value="normal">Normal</option>
                 <option value="hard">Hard</option>
             </select>
@@ -45,10 +54,10 @@
     <div id="card-grid" class="game-container">
         <div class="game-info-container">
             <div class="game-info">
-                Time: <span id="time-remaining">100</span>
+                Time: <span id="time-remaining"></span>
             </div>
             <div class="game-info">
-                Flips: <span id="flips">0</span>
+                Flips: <span id="flips"></span>
             </div>
         </div>
     </div>
