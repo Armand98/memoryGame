@@ -67,19 +67,37 @@ class MixOrMatch {
             gridSizeBonus = 500;
 
         let userScore = Math.floor((gridSizeBonus+this.timeRemaining-userTime)/(userFlips));
-        
-        const toSend = {
-                name: userNick,
-                score: userScore
-            };
+        let ajax = new XMLHttpRequest();
+        let url = "scores.json";
+        ajax.open("GET", url, true);
+        ajax.send(null);
 
-        const jsonString = JSON.stringify(toSend);
-        const xhr = new XMLHttpRequest();
+        ajax.onreadystatechange = function() {
+            if(this.readyState == 4 && this.status == 200) {
+                if(this.responseText != "" && this.responseText != null) {
+                    var data = JSON.parse(this.responseText);
+                    data.user.push({
+                        "name": userNick,
+                        "score": userScore
+                    });
+                    const jsonString = JSON.stringify(data);
+                    ajax.open("POST", "receive.php");
+                    ajax.setRequestHeader("Content-Type", "application/json");
+                    ajax.send(jsonString);
+                    
+                }
+             }
+             else if(this.readyState == 4 && this.status == 404)
+             {
+                const data = {"user":[{"name": userNick, "score": userScore}]};
+                const jsonString = JSON.stringify(data);
+                ajax.open("POST", "receive.php");
+                ajax.setRequestHeader("Content-Type", "application/json");
+                ajax.send(jsonString);
+             }
+         }
+     }
 
-        xhr.open("POST", "receive.php");
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.send(jsonString);
-    }
 
     startGame() {
         this.cardToCheck = null;
@@ -244,6 +262,7 @@ function removeCards() {
 
 function getRank() {
     let table = document.getElementById("highscores");
+    table.innerHTML = "";
     let xhr = new XMLHttpRequest();
     let url = "scores.json";
 
@@ -252,18 +271,19 @@ function getRank() {
 
     xhr.onreadystatechange = function() {
         if(this.readyState == 4 && this.status == 200) {
-            let retrievedScores = JSON.parse(this.responseText);
-            if(retrievedScores != null){
+            if(this.responseText != "") 
+            {
+                var retrievedScores = JSON.parse(this.responseText);
                 table.innerHTML += "<thead><tr><th>Nazwa gracza</th><th>Punkty</th></tr></thead>";
                 table.innerHTML += '<tbody id="table-body">';
                 let tbody = document.getElementById("table-body");
                 //retrievedScores.sort((a, b) => (a.score < b.score) ? 1 : -1);
-                for (let i = 0; i < retrievedScores.length; i++) {
+                for (let i = 0; i < retrievedScores.user.length; i++) {
                     var row = tbody.insertRow(0);
                     var cell1 = row.insertCell(0);
                     var cell2 = row.insertCell(1);
-                    cell1.innerHTML = retrievedScores[i].name;
-                    cell2.innerHTML = retrievedScores[i].score;
+                    cell1.innerHTML = retrievedScores.user[i].name;
+                    cell2.innerHTML = retrievedScores.user[i].score;
                 }
                 table.innerHTML += "</tbody>";
             }
