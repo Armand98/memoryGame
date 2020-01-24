@@ -22,6 +22,7 @@ body {
     font-weight: normal;
     text-align: center;
     font-size: 6em;
+    margin: 50px 10px 20px 10px;
 }
 
 .game-info-container {
@@ -50,11 +51,12 @@ body {
 .user-form-container {
     text-align: center;
     vertical-align: middle;
+    margin: 20px 0px 0px 0px;
+
 }
 
 .user-form-container input {
     width: 400px;
-    margin: 0 0 20px;
     padding: 8px 12px 10px 12px;
     border: 1px solid rgba(0,0,0,.5);
     background: rgba(0,0,0,.25);
@@ -389,69 +391,121 @@ body {
 
 /* Table Styles */
 
-.table-wrapper {
+  .table-wrapper {
     font-family: Helvetica;
-    display: table;
     margin: 0 auto;
 }
 
-.fl-table {
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: normal;
-    border: none;
+  .fl-table {
+    background: white;
+    border-radius:3px;
     border-collapse: collapse;
+    margin: auto;
+    max-width: 600px;
+    padding:5px;
     width: 100%;
-    max-width: 100%;
-    white-space: nowrap;
-    background-color: white;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    animation: float 5s infinite;
 }
 
-.fl-table thead, 
-.fl-table tbody {
+  .fl-table thead {
+    position:relative;
     display: block;
+    width:100%;
+    overflow-y: scroll;
+  }
+
+  .fl-table tbody {
+    display: block; 
+    position:relative;
+    width:100%; 
+    height: auto;
+    max-height: 200px;
+    overflow-y:scroll;
 }
 
-.fl-table tbody {
-    height: 100px;
-    overflow-y: auto;
-    overflow-x: hidden;
+  .fl-table th {
+    color:#D5DDE5;;
+    background:#1b1e24;
+    border-bottom:4px solid #9ea7af;
+    border-right: 1px solid #343a45;
+    font-size:23px;
+    font-weight: 100;
+    padding:24px;
+    text-align:left;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    vertical-align:middle;
 }
 
-.fl-table tbody td, thead th {
-    width: 20%; /* Optional */
-}
-
-.fl-table tbody { 
-    border-top: 2px solid black; 
-}
-
-.fl-table td, .fl-table th {
-    text-align: center;
-    padding: 10px;
-}
-
-.fl-table td {
-    border-right: 1px solid #f8f8f8;
+.fl-table tr {
+    width: 100%;
+    display:flex;
+    border-top: 1px solid #C1C3D1;
+    border-bottom: 1px solid #C1C3D1;
+    color:#666B85;
     font-size: 12px;
-}
+    font-weight:normal;
+    text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+  }
 
-.fl-table thead tr th { 
-    height: 30px;
-    line-height: 30px;
-}
+  .fl-table td, .fl-table th {
+    flex-basis:100%;
+    flex-grow:2;
+    display: block;
+    padding: 1rem;
+    text-align:left;
+  }
 
-.fl-table thead th {
-    color: #ffffff;
-    background: #223141;
-}
-
-
-.fl-table thead th:nth-child(odd) {
-    color: #ffffff;
-    background: #324960;
-}
-
-.fl-table tr:nth-child(even) {
-    background: #F8F8F8;
-}
+  .fl-table th:first-child {
+    border-top-left-radius:3px;
+  }
+   
+  .fl-table th:last-child {
+    border-top-right-radius:3px;
+    border-right:none;
+  }
+   
+  .fl-table tr:hover td {
+    background:#4E5066;
+    color:#FFFFFF;
+    border-top: 1px solid #22262e;
+  }
+   
+  .fl-table tr:first-child {
+    border-top:none;
+  }
+  
+  .fl-table tr:last-child {
+    border-bottom:none;
+  }
+   
+  .fl-table tr:nth-child(odd) td {
+    background:#EBEBEB;
+  }
+   
+  .fl-table tr:nth-child(odd):hover td {
+    background:#4E5066;
+  }
+  
+  .fl-table tr:last-child td:first-child {
+    border-bottom-left-radius:3px;
+  }
+   
+  .fl-table tr:last-child td:last-child {
+    border-bottom-right-radius:3px;
+  }
+   
+  .fl-table td {
+    background:#FFFFFF;
+    padding:9px;
+    text-align:center;
+    vertical-align:middle;
+    font-weight:300;
+    font-size:18px;
+    text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid #C1C3D1;
+  }
+  
+  .fl-table td:last-child {
+    border-right: 0px;
+  }
