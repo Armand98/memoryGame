@@ -284,9 +284,18 @@ function getRank() {
                 table.innerHTML += '<tbody id="table-body">';
                 let tbody = document.getElementById("table-body");
                 var myMap = new Map();
+                var maxValue = 0;
 
                 for (let k of Object.keys(retrievedScores.user)) {
-                    myMap.set(retrievedScores.user[k].name, retrievedScores.user[k].score);
+                    if(myMap.has(retrievedScores.user[k].name))
+                    {
+                        if(myMap.get(retrievedScores.user[k].name) < retrievedScores.user[k].score)
+                            myMap.set(retrievedScores.user[k].name, retrievedScores.user[k].score);
+                        else
+                            continue;
+                    }
+                    else
+                        myMap.set(retrievedScores.user[k].name, retrievedScores.user[k].score);
                 }
 
                 var data = Array.from(myMap);
