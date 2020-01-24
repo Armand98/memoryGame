@@ -55,18 +55,18 @@ class MixOrMatch {
         let gridSize = e.options[e.selectedIndex].value;
         let userTime = this.totalTime - this.timeRemaining;
         let userFlips = document.getElementById("flips").innerText;
-        let gridSizeBonus = 1;
+        let cards = 1;
 
         if(gridSize == 2)
-            gridSizeBonus = 1;
+            cards = 4;
         else if(gridSize == 4)
-            gridSizeBonus = 10;
+            cards = 8;
         else if (gridSize == 6)
-            gridSizeBonus = 100;
+            cards = 12;
         else if (gridSize == 8)
-            gridSizeBonus = 500;
+            cards = 16;
 
-        let userScore = Math.floor((gridSizeBonus+this.timeRemaining-userTime)/(userFlips));
+        let userScore = Math.floor((Math.pow(cards,5))/(userTime*userFlips));
         let ajax = new XMLHttpRequest();
         let url = "scores.json";
         ajax.open("GET", url, true);
