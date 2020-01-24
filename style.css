@@ -26,13 +26,40 @@ body {
 
 .game-info-container {
     grid-column: 1 / -1;
-    display: flex;
+    display: none;
     justify-content: space-between;
 }
 
 .game-info {
     font-family: MrRobot;
     font-size: 2em;
+}
+
+[placeholder]::-webkit-input-placeholder { color: rgba(255,255,255,.8); text-align: center; }
+[placeholder]:hover::-webkit-input-placeholder { color: rgba(255,255,255,.4); }
+[placeholder]:focus::-webkit-input-placeholder { color: transparent; }
+
+[placeholder]::-moz-placeholder { color: rgba(255,255,255,.8); }
+[placeholder]:hover::-moz-placeholder { color: rgba(255,255,255,.4); }
+[placeholder]:focus::-moz-placeholder { color: transparent; }
+
+[placeholder]:-ms-input-placeholder { color: rgba(255,255,255,.8); }
+[placeholder]:hover:-ms-input-placeholder { color: rgba(255,255,255,.4); }
+[placeholder]:focus:-ms-input-placeholder { color: transparent; }
+
+.user-form-container {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.user-form-container input {
+    width: 400px;
+    margin: 0 0 20px;
+    padding: 8px 12px 10px 12px;
+    border: 1px solid rgba(0,0,0,.5);
+    background: rgba(0,0,0,.25);
+    text-align: center;
+    color: rgba(255,255,255,1);
 }
 
 .menu-container {
@@ -50,8 +77,9 @@ body {
     text-transform: uppercase;
     text-decoration: none;
     background: #ed3330;
-    padding: 20px;
-    border-radius: 5px;
+    height: 30px;
+    width: 100px;
+    border-radius: 3px;
     display: inline-block;
     border: none;
     transition: all 0.4s ease 0s;
@@ -252,12 +280,12 @@ body {
     display: inline-block;
     position: relative;
     overflow: hidden;
-    height: 28px;
-    width: 150px;
+    height: 30px;
+    width: 100px;
     background: #f2f2f2;
     border: 1px solid;
     border-color: white #f7f7f7 whitesmoke;
-    border-radius: 3px;
+    border-radius: 5px;
     background-image: -webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0.06));
     background-image: -moz-linear-gradient(top, transparent, rgba(0, 0, 0, 0.06));
     background-image: -o-linear-gradient(top, transparent, rgba(0, 0, 0, 0.06));

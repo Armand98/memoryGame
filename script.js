@@ -71,7 +71,6 @@ class MixOrMatch {
         let url = "scores.json";
         ajax.open("GET", url, true);
         ajax.send(null);
-
         ajax.onreadystatechange = function() {
             if(this.readyState == 4 && this.status == 200) {
                 if(this.responseText != "" && this.responseText != null) {
@@ -105,6 +104,7 @@ class MixOrMatch {
         this.timeRemaining = this.totalTime;
         this.matchedCards = [];
         this.busy = true;
+        document.getElementById('game-info-id').style.display = flex;
 
         setTimeout(() => {
             //this.audioController.startMusic();
@@ -310,10 +310,16 @@ function ready() {
         let gameLevel = e.options[e.selectedIndex].value;
 
         let f = document.getElementById("grid-size");
-	    let gridSize = f.options[f.selectedIndex].value;
+        let gridSize = f.options[f.selectedIndex].value;
 
         let time = 90;
         let flag = true;
+
+        if(document.getElementById('nick').textContent == "")
+        {
+            alert("Enter your nickname!");
+            flag = false;
+        }
 
         if(gridSize == 'stop')
         {
