@@ -260,6 +260,12 @@ function removeCards() {
     }
 }
 
+function compare (a, b) {
+    if(a[1] > b[1]) return 1;
+    if (b[1] > a[1]) return -1;
+    return 0;
+}
+
 function getRank() {
     let table = document.getElementById("highscores");
     table.innerHTML = "";
@@ -277,13 +283,21 @@ function getRank() {
                 table.innerHTML += "<thead><tr><th>Nazwa gracza</th><th>Punkty</th></tr></thead>";
                 table.innerHTML += '<tbody id="table-body">';
                 let tbody = document.getElementById("table-body");
-                //retrievedScores.sort((a, b) => (a.score < b.score) ? 1 : -1);
-                for (let i = 0; i < retrievedScores.user.length; i++) {
+                var myMap = new Map();
+
+                for (let k of Object.keys(retrievedScores.user)) {
+                    myMap.set(retrievedScores.user[k].name, retrievedScores.user[k].score);
+                }
+                
+                var data = Array.from(myMap);
+                data.sort(compare);
+
+                for (let i = 0; i < data.length; i++) {
                     var row = tbody.insertRow(0);
                     var cell1 = row.insertCell(0);
                     var cell2 = row.insertCell(1);
-                    cell1.innerHTML = retrievedScores.user[i].name;
-                    cell2.innerHTML = retrievedScores.user[i].score;
+                    cell1.innerHTML = data[i][0];
+                    cell2.innerHTML = data[i][1];
                 }
                 table.innerHTML += "</tbody>";
             }
