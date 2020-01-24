@@ -104,7 +104,7 @@ class MixOrMatch {
         this.timeRemaining = this.totalTime;
         this.matchedCards = [];
         this.busy = true;
-        document.getElementById('game-info-id').style.display = flex;
+        document.getElementById('game-info-id').style.display = "flex";
 
         setTimeout(() => {
             //this.audioController.startMusic();
@@ -288,7 +288,7 @@ function getRank() {
                 for (let k of Object.keys(retrievedScores.user)) {
                     myMap.set(retrievedScores.user[k].name, retrievedScores.user[k].score);
                 }
-                
+
                 var data = Array.from(myMap);
                 data.sort(compare);
 
@@ -329,7 +329,7 @@ function ready() {
         let time = 90;
         let flag = true;
 
-        if(document.getElementById('nick').textContent == "")
+        if(document.getElementById('nick').value == "")
         {
             alert("Enter your nickname!");
             flag = false;
