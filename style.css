@@ -51,7 +51,7 @@ body {
 .user-form-container {
     text-align: center;
     vertical-align: middle;
-    margin: 0px 20px 0px 20px;
+    margin: 10px 20px 0px 20px;
 }
 
 .user-form-container input {
@@ -410,7 +410,7 @@ body {
 
   .table-wrapper {
     font-family: Helvetica;
-    margin: 0 auto;
+    margin: 10px;
 }
 
   .fl-table {
