@@ -1,7 +1,7 @@
 class AudioController {
     constructor() {
 
-        this.bgMusic = new Audio('');
+        this.bgMusic = new Audio('Assets/Audio/bensound-scifi.mp3');
         this.flipSound = new Audio('Assets/Audio/flip.wav');
         this.matchSound = new Audio('Assets/Audio/match.wav');
         this.victorySound = new Audio('Assets/Audio/victory.wav');
@@ -83,11 +83,9 @@ class MixOrMatch {
                     ajax.open("POST", "receive.php");
                     ajax.setRequestHeader("Content-Type", "application/json");
                     ajax.send(jsonString);
-                    
                 }
              }
-             else if(this.readyState == 4 && this.status == 404)
-             {
+             else if(this.readyState == 4 && this.status == 404) {
                 const data = {"user":[{"name": userNick, "score": userScore}]};
                 const jsonString = JSON.stringify(data);
                 ajax.open("POST", "receive.php");
@@ -107,7 +105,7 @@ class MixOrMatch {
         document.getElementById('game-info-id').style.display = "flex";
 
         setTimeout(() => {
-            //this.audioController.startMusic();
+            this.audioController.startMusic();
             this.shuffleCards();
             this.countDown = this.startCountDown();
             this.busy = false;
