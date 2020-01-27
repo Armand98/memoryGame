@@ -55,6 +55,9 @@ class MixOrMatch {
         let gridSize = e.options[e.selectedIndex].value;
         let userTime = this.totalTime - this.timeRemaining;
         let userFlips = document.getElementById("flips").innerText;
+        let f = document.getElementById("game-level");
+        let gameLevel = f.options[f.selectedIndex].value;
+        let bonus = 1;
         let cards = 1;
 
         if(gridSize == 2)
@@ -66,7 +69,14 @@ class MixOrMatch {
         else if (gridSize == 8)
             cards = 16;
 
-        let userScore = Math.floor((Math.pow(cards,5))/(userTime*userFlips));
+        if(gameLevel == 'easy')
+            bonus = 1;
+        else if(gameLevel == 'normal')
+            bonus = 1.2;
+        else if (gameLevel == 'hard')
+            bonus = 1.4;
+
+        let userScore = Math.floor((Math.pow(cards,5)*bonus)/(userTime*userFlips));
         let ajax = new XMLHttpRequest();
         let url = "scores.json";
         ajax.open("GET", url, true);
